@@ -37,7 +37,8 @@ namespace clone5
             Scene.Init(_spriteBatch, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             Tile.Texture2D = Content.Load<Texture2D>("Tile");
             Player.Texture2D = Content.Load<Texture2D>("frame-1");
-         
+            Gem.Texture2D = Content.Load<Texture2D>("Gem");
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,10 +54,8 @@ namespace clone5
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-           
+          
             _spriteBatch.Begin();
-
             _spriteBatch.Draw(background, new Rectangle(0, 0, 800, 500), Color.White);
             Scene.Draw();
 
