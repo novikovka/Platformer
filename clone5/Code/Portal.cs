@@ -8,25 +8,21 @@ using System.Threading.Tasks;
 
 namespace clone5
 {
-    class Gem
+    class Portal
     {
-        public const int Width = 30;
-        public const int Height = 30;
+        public const int Width = 40;
+        public const int Height = 40;
         public int PositionX;
         public int PositionY;
         public static Texture2D Texture2D;
 
 
-        public Gem(int positionX, int positionY)
+        public Portal(int positionX, int positionY)
         {
             PositionX = positionX;
             PositionY = positionY;
         }
 
-        public void Delete()
-        {
-            PositionY += 2000;
-        }
 
         public void Draw()
         {

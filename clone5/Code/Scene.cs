@@ -4,11 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace clone5
 {
@@ -16,11 +19,15 @@ namespace clone5
     {
         public static int Width, Height; //размеры экрана
         static public SpriteBatch SpriteBatch { get; set; }
-        static public Tile[] tiles;
-        static public Player player { get; set; }
-        static public Gem[] gems;
-        //static public Gem gem { get; set; }
+        static public Tile[] tiles1;
+        static public int Score = 0;
 
+        static public Texture2D Exit;
+
+
+        static public Gem[] gems;
+        static public Player player { get; set; }
+       
         public static bool Collision()
         {
             if((player.Pos.X > 470) && (player.Pos.X < 630) && (player.Pos.Y > 282) && (player.Pos.Y < 290))
@@ -48,107 +55,23 @@ namespace clone5
 
         public static void DeleteGem()
         {
-            
-            
-            if ((gems[0].Pos.X == player.Pos.X) && (gems[0].Pos.Y - player.Pos.Y == 30))
+            for(int i =0; i < gems.Length; i++)
             {
-                gems[0].Delete();
-            }
-            if ((gems[1].Pos.X == player.Pos.X) && (gems[1].Pos.Y - player.Pos.Y == 30))
-            {
-                gems[1].Delete();
-            }
-            if ((gems[2].Pos.X == player.Pos.X) && (gems[2].Pos.Y - player.Pos.Y == 30))
-            {
-                gems[2].Delete();
-            }
-            if ((gems[3].Pos.X == player.Pos.X) && (gems[3].Pos.Y - player.Pos.Y == 30))
-            {
-                gems[3].Delete();
-            }
-            if ((gems[4].Pos.X == player.Pos.X) && (gems[4].Pos.Y - player.Pos.Y == 30))
-            {
-                gems[4].Delete();
-            }
-
-            if ((gems[5].Pos.X == player.Pos.X) && (player.Pos.Y == 195))
-            {
-                gems[5].Delete();
-            }
-            if ((gems[6].Pos.X == player.Pos.X) && (player.Pos.Y == 195))
-            {
-                gems[6].Delete();
-            }
-            /*
-            if ((gems[5].Pos.X == player.Pos.X) && (player.Pos.Y > 194) && (player.Pos.Y < 200))
-            {
-                gems[5].Delete();
-            }
-            if ((gems[6].Pos.X == player.Pos.X) && (player.Pos.Y > 194) && (player.Pos.Y < 200))
-            {
-                gems[6].Delete();
-            }
-            
-            if ((gems[7].Pos.X == player.Pos.X) && (player.Pos.Y > 282) && (player.Pos.Y < 290))
-            {
-                gems[7].Delete();
-            }
-            if ((gems[8].Pos.X == player.Pos.X) && (player.Pos.Y > 282) && (player.Pos.Y < 290))
-            {
-                gems[8].Delete();
-            }
-            */
-            if ((gems[7].Pos.X == player.Pos.X) && (player.Pos.Y == 285))
-            {
-                gems[7].Delete();
-            }
-            if ((gems[8].Pos.X == player.Pos.X) && (player.Pos.Y == 285))
-            {
-                gems[8].Delete();
-            }
-
-            if ((gems[9].Pos.X == player.Pos.X) && (player.Pos.Y > 62) && (player.Pos.Y < 70))
-            {
-                gems[9].Delete();
-            }
-            if ((gems[10].Pos.X == player.Pos.X) && (player.Pos.Y > 62) && (player.Pos.Y < 70))
-            {
-                gems[10].Delete();
-            }
-            if ((gems[11].Pos.X == player.Pos.X) && (player.Pos.Y > 62) && (player.Pos.Y < 70))
-            {
-                gems[11].Delete();
-            }
-            if ((gems[12].Pos.X == player.Pos.X) && (player.Pos.Y > 18) && (player.Pos.Y < 22))
-            {
-                gems[12].Delete();
-            }
-            if ((gems[13].Pos.X == player.Pos.X) && (player.Pos.Y > 18) && (player.Pos.Y < 22))
-            {
-                gems[13].Delete();
-            }
-            if ((gems[14].Pos.X == player.Pos.X) && (player.Pos.Y > 62) && (player.Pos.Y < 70))
-            {
-                gems[14].Delete();
-            }
-            
-            
-            /*
-            for(int i = 0; i < gems.Length; i++)
-            {
-                if ((gems[i].Pos.X == player.Pos.X) && (gems[i].Pos.Y - player.Pos.Y == 30))
+                if (player.Pos.X == gems[i].PositionX && (gems[i].PositionY - player.Pos.Y) <= 30 && (gems[i].PositionY - player.Pos.Y) >= 20) 
                 {
                     gems[i].Delete();
+                    Score++;
                 }
-                
-            }
-            */
-            
+            }           
         }
-       
+        
+
         public static void Update(GameTime gameTime)
-        {        
-            KeyboardState button = Keyboard.GetState();           
+        {
+
+            
+            KeyboardState button = Keyboard.GetState();
+            
             if ((button.IsKeyDown(Keys.W) && (player.Pos.Y == 370)) || (button.IsKeyDown(Keys.W) && Collision()))
             {
                 player.Up();                
@@ -173,104 +96,113 @@ namespace clone5
             }
 
             DeleteGem();
+            
+            if(((player.Pos.X > 700) && (player.Pos.Y < 70) && Score == 15) || button.IsKeyDown(Keys.F)) //вот тут надо будет убрать переход по клавише 
+            {
+                Game1.Stat = Stat.Scene2;
+            }
+            CreateTiles1();
+            
+            
+           
+
         }
 
-        static public void Init(SpriteBatch SpriteBatch, int Width, int Height) //в этом методе должны создаваться тайлы
+        static public void Init1(SpriteBatch SpriteBatch, int Width, int Height) //в этом методе должны создаваться тайлы
         {
             Scene.Width = Width;
             Scene.Height = Height;
             Scene.SpriteBatch = SpriteBatch;
-            
-            CreateTiles();
-             gems = new Gem[15];
-            CreateGem();
-           
-            player = new Player(new Vector2(0, 370),5); //начальная позиция и скорость
-      
+
+            CreateTiles1();
+            CreateGems();
+            player = new Player(new Vector2(0, 370), 5); //начальная позиция и скорость
+
+
+
+            //player = new Player(new Vector2(0, 370),5); //начальная позиция и скорость
         }
 
-        public static void CreateGem()
+        public static void CreateGems()
         {
-            gems[0] = new Gem(new Vector2(260, 400));
-            gems[1] = new Gem(new Vector2(310, 400));
-            gems[2] = new Gem(new Vector2(360, 400));
+            gems = new Gem[15];
+            gems[0] = new Gem(260, 400);
+            gems[1] = new Gem(310, 400);
+            gems[2] = new Gem(360, 400);
+          
+            gems[3] = new Gem(710, 400);
+            gems[4] = new Gem(760, 400);
 
-            gems[3] = new Gem(new Vector2(710, 400));
-            gems[4] = new Gem(new Vector2(760, 400));
+            gems[5] = new Gem(210, 224);
+            gems[6] = new Gem(260, 224);
 
-            gems[5] = new Gem(new Vector2(210, 224));
-            gems[6] = new Gem(new Vector2(260, 224));
+            gems[7] = new Gem(560, 312);
+            gems[8] = new Gem(610, 312);
 
-            gems[7] = new Gem(new Vector2(560, 312));
-            gems[8] = new Gem(new Vector2(610, 312));
+            gems[9] = new Gem(60, 92);
+            gems[10] = new Gem(110, 92);
+            gems[11] = new Gem(160, 92);
 
-            gems[9] = new Gem(new Vector2(60, 92));
-            gems[10] = new Gem(new Vector2(110, 92));
-            gems[11] = new Gem(new Vector2(160, 92));
+            gems[12] = new Gem(410, 48);
+            gems[13] = new Gem(460, 48);
 
-            gems[12] = new Gem(new Vector2(410, 42));
-            gems[13] = new Gem(new Vector2(460, 42));
-
-            gems[14] = new Gem(new Vector2(610, 92));
-
+            gems[14] = new Gem(610, 92);
         }
 
-
-
-        public static void CreateTiles()
+        public static void CreateTiles1()
         {
-            //var gemses = new List<Gem>();
-            var boxs = new List<Tile>();
-            var map = new int[,]
+            var boxs1 = new List<Tile>();
+            var level1 = new int[,]
             {
                 {0,0,0,0,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,1,0,0,0,1},
-                {0,0,0,0,0,0,1,0,0,2,1},
-                {0,0,0,0,0,0,1,0,0,2,1},
+                {0,0,0,0,0,0,1,0,0,0,1},
+                {0,0,0,0,0,0,1,0,0,0,1},
                 {0,0,1,0,0,0,1,0,0,0,1},
                 {0,0,1,0,0,0,0,0,0,0,1},
                 {0,0,1,0,0,0,0,0,0,0,1},
                 {0,0,0,0,0,0,0,0,1,0,1},
-                {0,0,0,0,0,0,0,2,1,0,1},
-                {0,0,0,1,0,0,0,2,1,0,1},
+                {0,0,0,0,0,0,0,0,1,0,1},
+                {0,0,0,1,0,0,0,0,1,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,1,0,0,0,0,0,0,1},
                 {0,0,0,0,0,0,0,0,0,0,1}
             };
 
-            for(int i = 0; i < map.GetLength(0); i++)
+            for (int i = 0; i < level1.GetLength(0); i++)
             {
-                for(int j =0; j < map.GetLength(1); j++)
+                for (int j = 0; j < level1.GetLength(1); j++)
                 {
-                    int a = map[i,j];
-                    if(a == 1)
+                    int a = level1[i, j];
+                    if (a == 1)
                     {
                         Tile tile = new Tile(i * 50, j * 44);
-                        boxs.Add(tile);
-                    }                   
+                        boxs1.Add(tile);
+                    }
                 }
             }
-            tiles = boxs.ToArray(); 
+
+            tiles1 = boxs1.ToArray();
+
         }
-       
+        
         public static void Draw()
         {
-            foreach(Tile tile in tiles)
+            foreach (Tile tile in tiles1)
             {
                 tile.Draw();
             }
-            
-            foreach(Gem gem in gems)
+            foreach (Gem gem in gems)
             {
                 gem.Draw();
             }
-                       
             player.Draw();
-            
+            SpriteBatch.Draw(Exit, new Rectangle(700, 90, 50, 42), Color.White);
         }
-    }  
+              
+    }   
 }

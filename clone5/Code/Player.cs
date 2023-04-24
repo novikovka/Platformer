@@ -10,7 +10,7 @@ namespace clone5
 {
     class Player
     {
-        public Vector2 Pos; // позиция
+        public Vector2 Pos; 
         public int Speed;
         
 
@@ -41,39 +41,14 @@ namespace clone5
             Pos.X += Speed;     
         }
         public void Fall()
-        {
-            //Pos.Y ++;
+        {         
             Pos.Y += Speed;
         }
-
-        /*
-       public void Jump()
-       {
-           for(int v = -20; v< 20; v = v+5)
-           {
-               Speed = v;
-               Pos.Y += Speed;
-           }
-
-       }
-
-
-       /*
-
-       public void Velocity(int speedJump)
-       {
-           speedJump += 5;
-           Pos.Y += speedJump;        
-       }
-        */
-
-
 
         public void Draw()
         {
             Scene.SpriteBatch.Draw(Texture2D, Pos, color);
         }
-
 
     }
 }
