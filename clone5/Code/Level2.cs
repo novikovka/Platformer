@@ -18,17 +18,17 @@ namespace clone5
         public static int Width, Height; //размеры экрана
         static public SpriteBatch SpriteBatch { get; set; }
         static public Tile[] tiles1;
-        //static public Portal portal { get; set; }
+        
         static public Portal[] portals;
         static public Gem[] gems;
+        static public Exit1 Exit;
+       
 
         static public Player player { get; set; }
-        //static public Texture2D Exit;
-        //static public Texture2D Portal;
+        
         static public int Score = 0;
         static public Text text;
 
-        //public static SpriteFont Font { get; set; }
 
         public static void Update(GameTime gameTime)
         {
@@ -51,28 +51,15 @@ namespace clone5
             {
                 player.Fall();
             }
-            /*
-            if (player.Pos.Y > 370) //чтобы персонаж не падал сквозь нижние плитки
-            {
-                player.Pos.Y -= 5;
-            }
-
-            if (player.Pos.X > 760) //предотвращение выхода за грани окна справа
-            {
-                player.Pos.X -= 5;
-            }
-            */
-
-            /*
-            if ((player.Pos.Y > 238) && (player.Pos.Y < 246) && (player.Pos.X == 400)) //пробуем делать порталы
-            {
-                player.Pos.X = 700;
-                player.Pos.Y = 370;
-            }
-            */
+            
             Teleportation();
             DeleteGem();
             WindowOut();
+
+            if (((player.Pos.X > 150) && (player.Pos.X < 200) && (player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) //вот тут надо будет убрать переход по клавише 
+            {
+                Game1.Stat = Stat.Scene3;
+            }
 
         }
         public static void WindowOut() //предотвращает выход игрока за рамки окна
@@ -160,9 +147,9 @@ namespace clone5
             CreateTiles1();
             CreatePortals();
             CreateGems();
-            player = new Player(new Vector2(0, 0), 5); //начальная позиция и скорость
-            //portal = new Portal(370, 370);
+            player = new Player(new Vector2(0, 0), 5); //начальная позиция и скорость           
             text = new Text();
+            Exit = new Exit1(150, 46);
         }
 
         public static bool Collision()
@@ -202,7 +189,7 @@ namespace clone5
         public static void CreateTiles1()
         {
             var boxs1 = new List<Tile>();
-            //var listPortals = new List<Portal>();
+            
             var level1 = new int[,]
             {
                 {0,0,0,0,0,0,0,0,0,0,1},
@@ -237,19 +224,10 @@ namespace clone5
 
                 }
             }
-
             tiles1 = boxs1.ToArray();
-            //portals = listPortals.ToArray();
-
+           
         }
-        /*
-        public static string PrintScore()
-        {
-            var ScoreString = "Score: " + Score.ToString() + "/ 15";
-            return ScoreString;
-        }
-        */
-
+        
         public static void Draw()
         {
             foreach (Tile tile in tiles1)
@@ -264,14 +242,10 @@ namespace clone5
             {
                 gem.Draw();
             }
+            
             player.Draw();
-            //portal.Draw();
-
-            //SpriteBatch.DrawString(Font, PrintScore(), new Vector2(0, 0), Color.Black); //!!!
-
-            text.Draw(Score);
-
+            text.Draw(Score, gems.Length);
+            Exit.Draw();
         }
-
     }
 }

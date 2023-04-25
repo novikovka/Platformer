@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net.Security;
+using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,18 +19,21 @@ namespace clone5
     class Scene
     {
         public static int Width, Height; //размеры экрана
-        static public SpriteBatch SpriteBatch { get; set; }
+        static public SpriteBatch SpriteBatch;
         static public Tile[] tiles1;
         static public int Score = 0;
-        static public Texture2D Exit;
+        //static public Texture2D Exit;
+        static public Exit1 Exit;
         static public Gem[] gems;
         static public Player player { get; set; }
         static public Text text;
- 
-        
-        //public static SpriteFont Font { get; set; } //!!!
-        //public static string ScoreString;
 
+        //
+        static public Text timer;
+        static public int time = 0;
+
+        //public static bool flag;
+ 
         public static bool Collision()
         {
             if((player.Pos.X > 470) && (player.Pos.X < 630) && (player.Pos.Y > 282) && (player.Pos.Y < 290))
@@ -66,8 +70,7 @@ namespace clone5
                 }
             }           
         }
-        
-
+       
         public static void Update(GameTime gameTime)
         {
 
@@ -98,8 +101,13 @@ namespace clone5
             {
                 Game1.Stat = Stat.Scene2;
             }
-            CreateTiles1();
+            //CreateTiles1();
             WindowOut();
+            //RunGem();
+
+            time++;
+            
+            
         }
 
         public static void WindowOut() //предотвращает выход игрока за рамки окна
@@ -130,10 +138,9 @@ namespace clone5
             CreateGems();
             player = new Player(new Vector2(0, 370), 5); //начальная позиция и скорость
             text = new Text();
+            timer = new Text();
+            Exit = new Exit1(700, 90);
 
-
-
-            //player = new Player(new Vector2(0, 370),5); //начальная позиция и скорость
         }
 
         public static void CreateGems()
@@ -201,13 +208,6 @@ namespace clone5
 
             tiles1 = boxs1.ToArray();
         }
-        /*
-        public static string PrintScore()
-        {
-            var ScoreString = "Score: " + Score.ToString() + "/ 15";
-            return ScoreString;
-        }
-        */
         
         public static void Draw()
         {
@@ -220,11 +220,11 @@ namespace clone5
                 gem.Draw();
             }
             player.Draw();
-            SpriteBatch.Draw(Exit, new Rectangle(700, 90, 50, 42), Color.White);
+            //SpriteBatch.Draw(Exit, new Rectangle(700, 90, 50, 42), Color.White);
+            Exit.Draw();
+            text.Draw(Score, gems.Length);
 
-            //SpriteBatch.DrawString(Font, PrintScore(), new Vector2(0,0), Color.Black); //!!!
-
-            text.Draw(Score);
+            timer.DrawTime(time);
         }
               
     }   

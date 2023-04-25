@@ -15,6 +15,7 @@ namespace clone5
         public int PositionX;
         public int PositionY;
         public static Texture2D Texture2D;
+        public static int Sdvig = 2;
 
 
         public Gem(int positionX, int positionY)
@@ -27,6 +28,46 @@ namespace clone5
         {
             PositionY += 2000;
         }
+        //!!!
+        public void ToRight()
+        {
+            for(int i = 0; i < Sdvig; i++)
+            {
+                PositionX += 1;
+            }
+            
+        }
+
+        public void ToLeft()
+        {
+            for (int i = 0; i < Sdvig; i++)
+            {
+                PositionX -= 1;
+            }
+
+        }
+        //!!!
+
+
+
+        /*
+        public void RunToRight()
+        {
+            for(int i = 0; i < Sdvig; i++)
+
+                PositionX += 3;
+        }
+        
+        public void RunToLeft()
+        {
+            for (int i = 0; i < Sdvig; i++)
+
+                PositionX -= 3;
+        }
+        */
+
+
+        //!!!
 
         public void Draw()
         {
