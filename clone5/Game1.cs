@@ -60,6 +60,9 @@ namespace clone5
             Scene.Exit = Content.Load<Texture2D>("Exit");
             Portal.Texture2D = Content.Load<Texture2D>("Black Hole");
 
+            Text.Font = Content.Load<SpriteFont>("Score");
+            //Level2.Font = Content.Load<SpriteFont>("Score");
+
 
 
         }

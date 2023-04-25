@@ -25,6 +25,10 @@ namespace clone5
         static public Player player { get; set; }
         //static public Texture2D Exit;
         //static public Texture2D Portal;
+        static public int Score = 0;
+        static public Text text;
+
+        //public static SpriteFont Font { get; set; }
 
         public static void Update(GameTime gameTime)
         {
@@ -47,11 +51,18 @@ namespace clone5
             {
                 player.Fall();
             }
-
+            /*
             if (player.Pos.Y > 370) //чтобы персонаж не падал сквозь нижние плитки
             {
                 player.Pos.Y -= 5;
             }
+
+            if (player.Pos.X > 760) //предотвращение выхода за грани окна справа
+            {
+                player.Pos.X -= 5;
+            }
+            */
+
             /*
             if ((player.Pos.Y > 238) && (player.Pos.Y < 246) && (player.Pos.X == 400)) //пробуем делать порталы
             {
@@ -61,7 +72,25 @@ namespace clone5
             */
             Teleportation();
             DeleteGem();
+            WindowOut();
 
+        }
+        public static void WindowOut() //предотвращает выход игрока за рамки окна
+        {
+            if (player.Pos.Y > 370) //снизу
+            {
+                player.Pos.Y -= 5;
+            }
+
+            if (player.Pos.X > 760) // справа
+            {
+                player.Pos.X -= 5;
+            }
+
+            if (player.Pos.X < 0) //слева
+            {
+                player.Pos.X += 5;
+            }
         }
 
         public static void Teleportation()
@@ -117,7 +146,7 @@ namespace clone5
                 if (player.Pos.X == gems[i].PositionX && (gems[i].PositionY - player.Pos.Y) <= 30 && (gems[i].PositionY - player.Pos.Y) >= 20)
                 {
                     gems[i].Delete();
-                    //Score++;
+                    Score++;
                 }
             }
         }
@@ -133,6 +162,7 @@ namespace clone5
             CreateGems();
             player = new Player(new Vector2(0, 0), 5); //начальная позиция и скорость
             //portal = new Portal(370, 370);
+            text = new Text();
         }
 
         public static bool Collision()
@@ -212,6 +242,13 @@ namespace clone5
             //portals = listPortals.ToArray();
 
         }
+        /*
+        public static string PrintScore()
+        {
+            var ScoreString = "Score: " + Score.ToString() + "/ 15";
+            return ScoreString;
+        }
+        */
 
         public static void Draw()
         {
@@ -229,6 +266,10 @@ namespace clone5
             }
             player.Draw();
             //portal.Draw();
+
+            //SpriteBatch.DrawString(Font, PrintScore(), new Vector2(0, 0), Color.Black); //!!!
+
+            text.Draw(Score);
 
         }
 

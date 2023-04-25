@@ -21,13 +21,15 @@ namespace clone5
         static public SpriteBatch SpriteBatch { get; set; }
         static public Tile[] tiles1;
         static public int Score = 0;
-
         static public Texture2D Exit;
-
-
         static public Gem[] gems;
         static public Player player { get; set; }
-       
+        static public Text text;
+ 
+        
+        //public static SpriteFont Font { get; set; } //!!!
+        //public static string ScoreString;
+
         public static bool Collision()
         {
             if((player.Pos.X > 470) && (player.Pos.X < 630) && (player.Pos.Y > 282) && (player.Pos.Y < 290))
@@ -89,12 +91,7 @@ namespace clone5
             {
                 player.Fall();
             }
-                                
-            if (player.Pos.Y > 370) //чтобы персонаж не падал сквозь нижние плитки
-            {
-                player.Pos.Y -= 5;
-            }
-
+            
             DeleteGem();
             
             if(((player.Pos.X > 700) && (player.Pos.Y < 70) && Score == 15) || button.IsKeyDown(Keys.F)) //вот тут надо будет убрать переход по клавише 
@@ -102,10 +99,25 @@ namespace clone5
                 Game1.Stat = Stat.Scene2;
             }
             CreateTiles1();
-            
-            
-           
+            WindowOut();
+        }
 
+        public static void WindowOut() //предотвращает выход игрока за рамки окна
+        {
+            if (player.Pos.Y > 370) //снизу
+            {
+                player.Pos.Y -= 5;
+            }
+
+            if (player.Pos.X > 760) // справа
+            {
+                player.Pos.X -= 5;
+            }
+
+            if (player.Pos.X < 0) //слева
+            {
+                player.Pos.X += 5;
+            }
         }
 
         static public void Init1(SpriteBatch SpriteBatch, int Width, int Height) //в этом методе должны создаваться тайлы
@@ -117,6 +129,7 @@ namespace clone5
             CreateTiles1();
             CreateGems();
             player = new Player(new Vector2(0, 370), 5); //начальная позиция и скорость
+            text = new Text();
 
 
 
@@ -187,8 +200,14 @@ namespace clone5
             }
 
             tiles1 = boxs1.ToArray();
-
         }
+        /*
+        public static string PrintScore()
+        {
+            var ScoreString = "Score: " + Score.ToString() + "/ 15";
+            return ScoreString;
+        }
+        */
         
         public static void Draw()
         {
@@ -202,6 +221,10 @@ namespace clone5
             }
             player.Draw();
             SpriteBatch.Draw(Exit, new Rectangle(700, 90, 50, 42), Color.White);
+
+            //SpriteBatch.DrawString(Font, PrintScore(), new Vector2(0,0), Color.Black); //!!!
+
+            text.Draw(Score);
         }
               
     }   

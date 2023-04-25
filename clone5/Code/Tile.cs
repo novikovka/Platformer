@@ -27,12 +27,5 @@ namespace clone5
         {
             Scene.SpriteBatch.Draw(Texture2D, new Rectangle(PositionX, PositionY, Width, Height), Color.White);
         }
-
-        /*
-        public void Draw2()
-        {
-            Level2.SpriteBatch.Draw(Texture2D, new Rectangle(PositionX, PositionY, Width, Height), Color.White);
-        }
-        */
     }
 }
