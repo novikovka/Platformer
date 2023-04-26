@@ -29,6 +29,9 @@ namespace clone5
         static public Text timer;
         static public int time = 0;
         public static Texture2D Finish { get; set; }
+
+        //public static Texture2D YouWinner { get; set; }
+        //public static Message YouWinner;
         static public Player player { get; set; }
         
 
@@ -60,7 +63,28 @@ namespace clone5
             Teleportation();
             time++;
 
+            // DrawYouWinner();
+
+            if ((time < 3000  && player.Pos.X > 280 && player.Pos.X < 360 && player.Pos.Y < 19 && Score == 17) ||  button.IsKeyDown(Keys.H)) //вот тут надо будет убрать переход по клавише 
+            {
+                Game1.Stat = Stat.YouWinner;
+            }
+            else if ((time >= 3000) || button.IsKeyDown(Keys.J))
+            {
+                Game1.Stat = Stat.GameOver;
+            }
+
         }
+        /*
+        public static void TakeMessage()
+        {
+            if (time < 500 ) //вот тут надо будет убрать переход по клавише 
+            {
+                Game1.Stat = Stat.YouWinner;
+            }
+
+        }
+        */
         public static void WindowOut() //предотвращает выход игрока за рамки окна
         {
             if (player.Pos.Y > 370) //снизу
@@ -220,9 +244,17 @@ namespace clone5
 
 
             player = new Player(new Vector2(700, 370), 5); //начальная позиция и скорость           
-            
+            //DrawYouWinner();
         }
-
+        /*
+        public static void DrawYouWinner()
+        {
+            if(time == 500)
+            {
+                YouWinner = new Message(0, 0);
+            }
+        }
+        */
         public static void CreateTiles1()
         {
             var boxs1 = new List<Tile>();
@@ -286,7 +318,42 @@ namespace clone5
             text.Draw(Score, gems.Length);
             timer.DrawTime(time);
             Scene.SpriteBatch.Draw(Finish, new Rectangle(280, 18, 90, 90), Color.White);
+            //DrawYouWinner();
+            //YouWinner.Draw();
 
         }
     }
 }
+/*
+ * using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace clone5
+{
+    class Message
+    {
+        public static Texture2D YouWinner { get; set; }
+
+        public const int Width = 300;
+        public const int Height = 200;
+        public int PositionX;
+        public int PositionY;
+
+        public Message(int positionX, int positionY)
+        {
+            PositionX = positionX;
+            PositionY = positionY;
+        }
+        
+        public void Draw()
+        {
+            Scene.SpriteBatch.Draw(YouWinner, new Rectangle(PositionX, PositionY, Width, Height), Color.White);
+        }
+    }
+}
+ */

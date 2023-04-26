@@ -29,8 +29,8 @@ namespace clone5
         static public Text text;
 
         //
-        static public Text timer;
-        static public int time = 0;
+        //static public Text timer;
+        //static public int time = 0;
 
         //public static bool flag;
  
@@ -105,7 +105,7 @@ namespace clone5
             WindowOut();
             //RunGem();
 
-            time++;
+            //time++;
             
             
         }
@@ -138,7 +138,7 @@ namespace clone5
             CreateGems();
             player = new Player(new Vector2(0, 370), 5); //начальная позиция и скорость
             text = new Text();
-            timer = new Text();
+            //timer = new Text();
             Exit = new Exit1(700, 90);
 
         }
@@ -224,7 +224,7 @@ namespace clone5
             Exit.Draw();
             text.Draw(Score, gems.Length);
 
-            timer.DrawTime(time);
+           // timer.DrawTime(time);
         }
               
     }   

@@ -12,6 +12,8 @@ namespace clone5
         Scene1,
         Scene2,
         Scene3,
+        YouWinner,
+        GameOver
     }
     
 
@@ -25,6 +27,8 @@ namespace clone5
         */
         private SpriteBatch _spriteBatch;
         Texture2D background;
+        Texture2D YouWinner;
+        Texture2D GameOver;
         //static readonly Player player;
 
 
@@ -91,6 +95,9 @@ namespace clone5
             Portal.Texture2D = Content.Load<Texture2D>("Black Hole");
             Level3.Finish = Content.Load<Texture2D>("finish");
 
+            YouWinner = Content.Load<Texture2D>("вы выиграли");
+            GameOver = Content.Load<Texture2D>("вы проиграли 3");
+
             Text.Font = Content.Load<SpriteFont>("Score");
             //Level2.Font = Content.Load<SpriteFont>("Score");
 
@@ -131,6 +138,16 @@ namespace clone5
                     _spriteBatch.Begin();
                     _spriteBatch.Draw(background, new Rectangle(0, 0, 800, 500), Color.White);
                     Level3.Draw();
+                    _spriteBatch.End();
+                    break;
+                case Stat.YouWinner:
+                    _spriteBatch.Begin();           
+                    _spriteBatch.Draw(YouWinner, new Rectangle(0, 0, 800, 500), Color.White);
+                    _spriteBatch.End();
+                    break;
+                case Stat.GameOver:
+                    _spriteBatch.Begin();
+                    _spriteBatch.Draw(GameOver, new Rectangle(0, 0, 800, 500), Color.White);
                     _spriteBatch.End();
                     break;
             }

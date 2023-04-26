@@ -26,7 +26,7 @@ namespace clone5
 
         public void DrawTime(int time)
         {
-            Scene.SpriteBatch.DrawString(Font, "time: " + time.ToString(), new Vector2(500, 0), Color.Black); //!!!
+            Scene.SpriteBatch.DrawString(Font, "time: " + time.ToString() + "/ 3000", new Vector2(500, 0), Color.Black); //!!!
         }
     }
 }
