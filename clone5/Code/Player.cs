@@ -21,8 +21,12 @@ namespace clone5
         }
 
         Color color = Color.White;
-       
+       /*
+        public static Texture2D InRight { get; set; }
+        public static Texture2D InLeft { get; set; }
+       */
         public static Texture2D Texture2D { get; set; }
+
 
         public void Up()
         {
@@ -47,6 +51,18 @@ namespace clone5
 
         public void Draw()
         {
+            /*
+            switch (direction)
+            {
+                case "right":
+                    Scene.SpriteBatch.Draw(InRight, Pos, color);
+                    break;
+                case "left":
+                    Scene.SpriteBatch.Draw(InLeft, Pos, color);
+                    break;
+                
+            }
+            */
             Scene.SpriteBatch.Draw(Texture2D, Pos, color);
         }
 

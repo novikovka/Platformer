@@ -22,9 +22,10 @@ namespace clone5
         static public Portal[] portals;
         static public Gem[] gems;
         static public Exit1 Exit;
+        
        
 
-        static public Player player { get; set; }
+        static public Player Player { get; set; }
         
         static public int Score = 0;
         static public Text text;
@@ -34,29 +35,29 @@ namespace clone5
         {
             KeyboardState button = Keyboard.GetState();
 
-            if (button.IsKeyDown(Keys.W) && (player.Pos.Y == 370) || (button.IsKeyDown(Keys.W) && Collision()))
+            if (button.IsKeyDown(Keys.W) && (Player.Pos.Y == 370) || (button.IsKeyDown(Keys.W) && Collision()))
             {
-                player.Up();
+                Player.Up();
             }
             if (button.IsKeyDown(Keys.A))
             {
-                player.Left();
+                Player.Left();
             }
             if (button.IsKeyDown(Keys.D))
             {
-                player.Right();
+                Player.Right();
             }
 
-            if (player.Pos.Y <= 370 && !(Collision()))
+            if (Player.Pos.Y <= 370 && !(Collision()))
             {
-                player.Fall();
+                Player.Fall();
             }
             
             Teleportation();
             DeleteGem();
             WindowOut();
 
-            if (((player.Pos.X > 150) && (player.Pos.X < 200) && (player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) //вот тут надо будет убрать переход по клавише 
+            if (((Player.Pos.X > 150) && (Player.Pos.X < 200) && (Player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) //вот тут надо будет убрать переход по клавише 
             {
                 Game1.Stat = Stat.Scene3;
             }
@@ -64,19 +65,19 @@ namespace clone5
         }
         public static void WindowOut() //предотвращает выход игрока за рамки окна
         {
-            if (player.Pos.Y > 370) //снизу
+            if (Player.Pos.Y > 370) //снизу
             {
-                player.Pos.Y -= 5;
+                Player.Pos.Y -= 5;
             }
 
-            if (player.Pos.X > 760) // справа
+            if (Player.Pos.X > 760) // справа
             {
-                player.Pos.X -= 5;
+                Player.Pos.X -= 5;
             }
 
-            if (player.Pos.X < 0) //слева
+            if (Player.Pos.X < 0) //слева
             {
-                player.Pos.X += 5;
+                Player.Pos.X += 5;
             }
         }
 
@@ -84,10 +85,10 @@ namespace clone5
         {
             for (int i = 0; i < portals.Length; i++)
             {
-                if (player.Pos.X == portals[i].PositionX && (portals[i].PositionY - player.Pos.Y) <= 40 && (portals[i].PositionY - player.Pos.Y) >= 10)
+                if (Player.Pos.X == portals[i].PositionX && (portals[i].PositionY - Player.Pos.Y) <= 40 && (portals[i].PositionY - Player.Pos.Y) >= 10)
                 {
-                    player.Pos.X = 720;
-                    player.Pos.Y = 370;
+                    Player.Pos.X = 720;
+                    Player.Pos.Y = 370;
 
                 }
             }
@@ -130,7 +131,7 @@ namespace clone5
         {
             for (int i = 0; i < gems.Length; i++)
             {
-                if (player.Pos.X == gems[i].PositionX && (gems[i].PositionY - player.Pos.Y) <= 30 && (gems[i].PositionY - player.Pos.Y) >= 20)
+                if (Player.Pos.X == gems[i].PositionX && (gems[i].PositionY - Player.Pos.Y) <= 30 && (gems[i].PositionY - Player.Pos.Y) >= 20)
                 {
                     gems[i].Delete();
                     Score++;
@@ -147,38 +148,38 @@ namespace clone5
             CreateTiles1();
             CreatePortals();
             CreateGems();
-            player = new Player(new Vector2(0, 0), 5); //начальная позиция и скорость           
+            Player = new Player(new Vector2(720, 370), 5); //начальная позиция и скорость           
             text = new Text();
             Exit = new Exit1(150, 46);
         }
 
         public static bool Collision()
         {
-            if ((player.Pos.X > 20) && (player.Pos.X < 130) && (player.Pos.Y > 194) && (player.Pos.Y < 200))
+            if ((Player.Pos.X > 20) && (Player.Pos.X < 130) && (Player.Pos.Y > 194) && (Player.Pos.Y < 200))
             {
                 return true;
             }
-            if ((player.Pos.X > 230) && (player.Pos.X < 330) && (player.Pos.Y > 150) && (player.Pos.Y < 160))
+            if ((Player.Pos.X > 230) && (Player.Pos.X < 330) && (Player.Pos.Y > 150) && (Player.Pos.Y < 160))
             {
                 return true;
             }
-            if ((player.Pos.X > 330) && (player.Pos.X < 430) && (player.Pos.Y > 238) && (player.Pos.Y < 246))
+            if ((Player.Pos.X > 330) && (Player.Pos.X < 430) && (Player.Pos.Y > 238) && (Player.Pos.Y < 246))
             {
                 return true;
             }
-            if ((player.Pos.X > 480) && (player.Pos.X < 580) && (player.Pos.Y > 150) && (player.Pos.Y < 160))
+            if ((Player.Pos.X > 480) && (Player.Pos.X < 580) && (Player.Pos.Y > 150) && (Player.Pos.Y < 160))
             {
                 return true;
             }
-            if ((player.Pos.X > 580) && (player.Pos.X < 680) && (player.Pos.Y > 62) && (player.Pos.Y < 70))
+            if ((Player.Pos.X > 580) && (Player.Pos.X < 680) && (Player.Pos.Y > 62) && (Player.Pos.Y < 70))
             {
                 return true;
             }
-            if ((player.Pos.X > 80) && (player.Pos.X < 280) && (player.Pos.Y > 18) && (player.Pos.Y < 25))
+            if ((Player.Pos.X > 80) && (Player.Pos.X < 280) && (Player.Pos.Y > 18) && (Player.Pos.Y < 25))
             {
                 return true;
             }
-            if ((player.Pos.X > 580) && (player.Pos.X < 680) && (player.Pos.Y > 326) && (player.Pos.Y < 335))
+            if ((Player.Pos.X > 580) && (Player.Pos.X < 680) && (Player.Pos.Y > 326) && (Player.Pos.Y < 335))
             {
                 return true;
             }
@@ -243,7 +244,7 @@ namespace clone5
                 gem.Draw();
             }
             
-            player.Draw();
+            Player.Draw();
             text.Draw(Score, gems.Length);
             Exit.Draw();
         }

@@ -46,29 +46,7 @@ namespace clone5
             }
 
         }
-        //!!!
-
-
-
-        /*
-        public void RunToRight()
-        {
-            for(int i = 0; i < Sdvig; i++)
-
-                PositionX += 3;
-        }
         
-        public void RunToLeft()
-        {
-            for (int i = 0; i < Sdvig; i++)
-
-                PositionX -= 3;
-        }
-        */
-
-
-        //!!!
-
         public void Draw()
         {
             Scene.SpriteBatch.Draw(Texture2D, new Rectangle(PositionX, PositionY, Width, Height), Color.White);

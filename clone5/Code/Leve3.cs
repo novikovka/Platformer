@@ -61,7 +61,11 @@ namespace clone5
             WindowOut();
             DeleteGem();
             Teleportation();
-            time++;
+            if(Game1.Stat == Stat.Scene3)
+            {
+                time++;
+            }
+            //time++;
 
             // DrawYouWinner();
 

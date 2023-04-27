@@ -27,7 +27,7 @@ namespace clone5
         static public Gem[] gems;
         static public Player player { get; set; }
         static public Text text;
-
+        //public static string direction;
         //
         //static public Text timer;
         //static public int time = 0;
@@ -84,10 +84,12 @@ namespace clone5
             if (button.IsKeyDown(Keys.A))
             {
                 player.Left();
+                //direction = "left";
             }
             if (button.IsKeyDown(Keys.D))
             {               
                player.Right();
+                //direction = "right";
             }
             
             if (player.Pos.Y < 370 && !(Collision()))
@@ -105,9 +107,8 @@ namespace clone5
             WindowOut();
             //RunGem();
 
-            //time++;
-            
-            
+            //time++;a
+           
         }
 
         public static void WindowOut() //предотвращает выход игрока за рамки окна
