@@ -12,8 +12,9 @@ namespace clone5
     {
         public Vector2 Pos; 
         public int Speed;
-        
 
+        public int Direction;
+        
         public Player(Vector2 pos, int speed)
         {
             Pos = pos;
@@ -21,13 +22,10 @@ namespace clone5
         }
 
         Color color = Color.White;
-       /*
+       
         public static Texture2D InRight { get; set; }
         public static Texture2D InLeft { get; set; }
-       */
-        public static Texture2D Texture2D { get; set; }
-
-
+       
         public void Up()
         {
             Pos.Y -= 200;             
@@ -48,23 +46,16 @@ namespace clone5
         {         
             Pos.Y += Speed;
         }
-
         public void Draw()
-        {
-            /*
-            switch (direction)
+        {            
+            if(Direction == 1)
             {
-                case "right":
-                    Scene.SpriteBatch.Draw(InRight, Pos, color);
-                    break;
-                case "left":
-                    Scene.SpriteBatch.Draw(InLeft, Pos, color);
-                    break;
-                
+                Scene.SpriteBatch.Draw(InRight, Pos, color);
             }
-            */
-            Scene.SpriteBatch.Draw(Texture2D, Pos, color);
+            else if (Direction == 0)
+            {
+                Scene.SpriteBatch.Draw(InLeft, Pos, color);
+            }
         }
-
     }
 }

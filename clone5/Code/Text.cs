@@ -11,7 +11,7 @@ namespace clone5
 {
     class Text
     {       
-        public static SpriteFont Font { get; set; } //!!!
+        public static SpriteFont Font { get; set; } 
 
         public static string PrintScore(int Score, int count)
         {
@@ -21,12 +21,12 @@ namespace clone5
 
         public void Draw(int Score, int count)
         {
-            Scene.SpriteBatch.DrawString(Font, PrintScore(Score, count), new Vector2(0, 0), Color.Black); //!!!
+            Scene.SpriteBatch.DrawString(Font, PrintScore(Score, count), new Vector2(0, 0), Color.Black); 
         }
 
         public void DrawTime(int time)
         {
-            Scene.SpriteBatch.DrawString(Font, "time: " + time.ToString() + "/ 3000", new Vector2(500, 0), Color.Black); //!!!
+            Scene.SpriteBatch.DrawString(Font, "time: " + time.ToString() + "/ 60", new Vector2(500, 0), Color.Black); 
         }
     }
 }

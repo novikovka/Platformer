@@ -6,30 +6,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Security;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace clone5
 {
     class Level2
     {
-        public static int Width, Height; //размеры экрана
         static public SpriteBatch SpriteBatch { get; set; }
-        static public Tile[] tiles1;
-        
-        static public Portal[] portals;
-        static public Gem[] gems;
-        static public Exit1 Exit;
-        
-       
-
-        static public Player Player { get; set; }
-        
+        static public Tile[] Tiles;      
+        static public Portal[] Portals;
+        static public Gem[] Gems;
+        static public Exit1 Exit;     
+        static public Player Player { get; set; }     
         static public int Score = 0;
-        static public Text text;
-
+        static public Text Text;
 
         public static void Update(GameTime gameTime)
         {
@@ -42,12 +37,13 @@ namespace clone5
             if (button.IsKeyDown(Keys.A))
             {
                 Player.Left();
+                Player.Direction = 0;
             }
             if (button.IsKeyDown(Keys.D))
             {
                 Player.Right();
+                Player.Direction = 1;
             }
-
             if (Player.Pos.Y <= 370 && !(Collision()))
             {
                 Player.Fall();
@@ -57,7 +53,7 @@ namespace clone5
             DeleteGem();
             WindowOut();
 
-            if (((Player.Pos.X > 150) && (Player.Pos.X < 200) && (Player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) //вот тут надо будет убрать переход по клавише 
+            if (((Player.Pos.X > 150) && (Player.Pos.X < 200) && (Player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) 
             {
                 Game1.Stat = Stat.Scene3;
             }
@@ -83,9 +79,9 @@ namespace clone5
 
         public static void Teleportation()
         {
-            for (int i = 0; i < portals.Length; i++)
+            for (int i = 0; i < Portals.Length; i++)
             {
-                if (Player.Pos.X == portals[i].PositionX && (portals[i].PositionY - Player.Pos.Y) <= 40 && (portals[i].PositionY - Player.Pos.Y) >= 10)
+                if (Player.Pos.X == Portals[i].PositionX && (Portals[i].PositionY - Player.Pos.Y) <= 40 && (Portals[i].PositionY - Player.Pos.Y) >= 10)
                 {
                     Player.Pos.X = 720;
                     Player.Pos.Y = 370;
@@ -96,50 +92,49 @@ namespace clone5
 
         public static void CreatePortals()
         {
-            portals = new Portal[6];
-            portals[0] = new Portal(0, 268);
-            portals[1] = new Portal(550, 136);
-            portals[2] = new Portal(100, 400);
-            portals[3] = new Portal(250, 180);
-            portals[4] = new Portal(450, 312);
-            portals[5] = new Portal(700, 180);
-
+            Portals = new Portal[6];
+            Portals[0] = new Portal(0, 268);
+            Portals[1] = new Portal(550, 136);
+            Portals[2] = new Portal(100, 400);
+            Portals[3] = new Portal(250, 180);
+            Portals[4] = new Portal(450, 312);
+            Portals[5] = new Portal(700, 180);
         }
         public static void CreateGems()
         {
-            gems = new Gem[15];
-            gems[0] = new Gem(10, 400);
-            gems[1] = new Gem(60, 400);
-            gems[2] = new Gem(60, 224);
-            gems[3] = new Gem(110, 224);
-            gems[4] = new Gem(260, 48);
-            gems[5] = new Gem(310, 180);
-            gems[6] = new Gem(360, 268);
-            gems[7] = new Gem(410, 268);
-            gems[8] = new Gem(510, 180);
-            gems[9] = new Gem(560, 180);
-            gems[10] = new Gem(610, 92);
-            gems[11] = new Gem(660, 92);
-            gems[12] = new Gem(610, 356);
-            gems[13] = new Gem(660, 356);
-            gems[14] = new Gem(160, 400);
+            Gems = new Gem[15];
+            Gems[0] = new Gem(10, 400);
+            Gems[1] = new Gem(60, 400);
+            Gems[2] = new Gem(60, 224);
+            Gems[3] = new Gem(110, 224);
+            Gems[4] = new Gem(260, 48);
+            Gems[5] = new Gem(310, 180);
+            Gems[6] = new Gem(360, 268);
+            Gems[7] = new Gem(410, 268);
+            Gems[8] = new Gem(510, 180);
+            Gems[9] = new Gem(560, 180);
+            Gems[10] = new Gem(610, 92);
+            Gems[11] = new Gem(660, 92);
+            Gems[12] = new Gem(610, 356);
+            Gems[13] = new Gem(660, 356);
+            Gems[14] = new Gem(160, 400);
             
 
         }
 
         public static void DeleteGem()
         {
-            for (int i = 0; i < gems.Length; i++)
+            for (int i = 0; i < Gems.Length; i++)
             {
-                if (Player.Pos.X == gems[i].PositionX && (gems[i].PositionY - Player.Pos.Y) <= 30 && (gems[i].PositionY - Player.Pos.Y) >= 20)
+                if (Player.Pos.X == Gems[i].PositionX && (Gems[i].PositionY - Player.Pos.Y) <= 30 && (Gems[i].PositionY - Player.Pos.Y) >= 20)
                 {
-                    gems[i].Delete();
+                    Gems[i].Delete();
                     Score++;
                 }
             }
         }
 
-        static public void Init1(SpriteBatch SpriteBatch, int Width, int Height) //в этом методе должны создаваться тайлы
+        static public void Init1(SpriteBatch SpriteBatch, int Width, int Height) 
         {
             Scene.Width = Width;
             Scene.Height = Height;
@@ -148,8 +143,8 @@ namespace clone5
             CreateTiles1();
             CreatePortals();
             CreateGems();
-            Player = new Player(new Vector2(720, 370), 5); //начальная позиция и скорость           
-            text = new Text();
+            Player = new Player(new Vector2(720, 370), 5);        
+            Text = new Text();
             Exit = new Exit1(150, 46);
         }
 
@@ -189,7 +184,7 @@ namespace clone5
 
         public static void CreateTiles1()
         {
-            var boxs1 = new List<Tile>();
+            var boxs = new List<Tile>();
             
             var level1 = new int[,]
             {
@@ -220,32 +215,30 @@ namespace clone5
                     if (a == 1)
                     {
                         Tile tile = new Tile(i * 50, j * 44);
-                        boxs1.Add(tile);
+                        boxs.Add(tile);
                     }
-
                 }
             }
-            tiles1 = boxs1.ToArray();
-           
+            Tiles = boxs.ToArray();          
         }
         
         public static void Draw()
         {
-            foreach (Tile tile in tiles1)
+            foreach (Tile tile in Tiles)
             {
                 tile.Draw();
             }
-            foreach (Portal portal in portals)
+            foreach (Portal portal in Portals)
             {
                 portal.Draw();
             }
-            foreach(Gem gem in gems)
+            foreach(Gem gem in Gems)
             {
                 gem.Draw();
             }
             
             Player.Draw();
-            text.Draw(Score, gems.Length);
+            Text.Draw(Score, Gems.Length);
             Exit.Draw();
         }
     }

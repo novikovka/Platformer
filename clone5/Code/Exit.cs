@@ -16,7 +16,6 @@ namespace clone5
         public int PositionY;
         public static Texture2D Texture2D;
 
-
         public Exit1(int positionX, int positionY)
         {
             PositionX = positionX;

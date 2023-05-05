@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
 using Color = Microsoft.Xna.Framework.Color;
@@ -18,24 +19,17 @@ namespace clone5
 {
     class Level3
     {
-        public static int Width, Height; //размеры экрана
-        static public SpriteBatch SpriteBatch;
-        static public Tile[] tiles1;
-
-        static public Portal[] portals;
-        static public Gem[] gems;
+        static public Tile[] Tiles;
+        static public Portal[] Portals;
+        static public Gem[] Gems;
         static public int Score = 0;
-        static public Text text;
+        static public Text Text;
         static public Text timer;
         static public int time = 0;
+        static public int Seconds = 0;
         public static Texture2D Finish { get; set; }
-
-        //public static Texture2D YouWinner { get; set; }
-        //public static Message YouWinner;
         static public Player player { get; set; }
         
-
-
         public static void Update(GameTime gameTime)
         {
             KeyboardState button = Keyboard.GetState();
@@ -47,12 +41,13 @@ namespace clone5
             if (button.IsKeyDown(Keys.A))
             {
                 player.Left();
+                player.Direction = 0;
             }
             if (button.IsKeyDown(Keys.D))
             {
                 player.Right();
+                player.Direction = 1;
             }
-
             if (player.Pos.Y <= 370 && !Collision())
             {
                 player.Fall();
@@ -61,34 +56,30 @@ namespace clone5
             WindowOut();
             DeleteGem();
             Teleportation();
-            if(Game1.Stat == Stat.Scene3)
+            Timer();           
+        }
+
+        public static void Timer()
+        {
+            if (Game1.Stat == Stat.Scene3)
             {
-                time++;
+                time++;               
             }
-            //time++;
-
-            // DrawYouWinner();
-
-            if ((time < 3000  && player.Pos.X > 280 && player.Pos.X < 360 && player.Pos.Y < 19 && Score == 17) ||  button.IsKeyDown(Keys.H)) //вот тут надо будет убрать переход по клавише 
+            if (time == 60)
+            {
+                Seconds++;
+                time = 0;
+            }
+            if (Seconds < 60 && player.Pos.X > 280 && player.Pos.X < 360 && player.Pos.Y < 19 && Score == 17)  
             {
                 Game1.Stat = Stat.YouWinner;
             }
-            else if ((time >= 3000) || button.IsKeyDown(Keys.J))
+            else if (Seconds >= 60)
             {
                 Game1.Stat = Stat.GameOver;
             }
-
         }
-        /*
-        public static void TakeMessage()
-        {
-            if (time < 500 ) //вот тут надо будет убрать переход по клавише 
-            {
-                Game1.Stat = Stat.YouWinner;
-            }
-
-        }
-        */
+        
         public static void WindowOut() //предотвращает выход игрока за рамки окна
         {
             if (player.Pos.Y > 370) //снизу
@@ -166,103 +157,90 @@ namespace clone5
 
         public static void CreateGems()
         {
-            gems = new Gem[17];
-            gems[0] = new Gem(10, 400);
-            gems[1] = new Gem(60, 92);
-            gems[2] = new Gem(60, 312);
-            gems[3] = new Gem(110, 180);
-            gems[4] = new Gem(210, 92);
+            Gems = new Gem[17];
+            Gems[0] = new Gem(10, 400);
+            Gems[1] = new Gem(60, 92);
+            Gems[2] = new Gem(60, 312);
+            Gems[3] = new Gem(110, 180);
+            Gems[4] = new Gem(210, 92);
 
-            gems[5] = new Gem(210, 268);
-            gems[6] = new Gem(210, 400);
+            Gems[5] = new Gem(210, 268);
+            Gems[6] = new Gem(210, 400);
 
-            gems[7] = new Gem(310, 180);
-            gems[8] = new Gem(310, 400);
+            Gems[7] = new Gem(310, 180);
+            Gems[8] = new Gem(310, 400);
 
-            gems[9] = new Gem(410, 92);
-            gems[10] = new Gem(410, 268);
-            gems[11] = new Gem(410, 400);
+            Gems[9] = new Gem(410, 92);
+            Gems[10] = new Gem(410, 268);
+            Gems[11] = new Gem(410, 400);
 
-            gems[12] = new Gem(510, 180);
+            Gems[12] = new Gem(510, 180);
 
-            gems[13] = new Gem(560, 312);
+            Gems[13] = new Gem(560, 312);
 
-            gems[14] = new Gem(610, 91);
+            Gems[14] = new Gem(610, 91);
 
-            gems[15] = new Gem(710, 91);
-            gems[16] = new Gem(710, 224);
+            Gems[15] = new Gem(710, 91);
+            Gems[16] = new Gem(710, 224);
 
 
         }
         public static void CreatePortals()
         {
-            portals = new Portal[10];
-            portals[0] = new Portal(0, 92);
-            portals[1] = new Portal(60, 224);
-            portals[2] = new Portal(110, 400);
-            portals[3] = new Portal(160, 136);
-            portals[4] = new Portal(260, 400);
-            portals[5] = new Portal(460, 92);
-            portals[6] = new Portal(360, 400);
-            portals[7] = new Portal(460, 312);
-            portals[8] = new Portal(660, 92);
-            portals[9] = new Portal(610, 312);
+            Portals = new Portal[10];
+            Portals[0] = new Portal(0, 92);
+            Portals[1] = new Portal(60, 224);
+            Portals[2] = new Portal(110, 400);
+            Portals[3] = new Portal(160, 136);
+            Portals[4] = new Portal(260, 400);
+            Portals[5] = new Portal(460, 92);
+            Portals[6] = new Portal(360, 400);
+            Portals[7] = new Portal(460, 312);
+            Portals[8] = new Portal(660, 92);
+            Portals[9] = new Portal(610, 312);
 
         }
 
         public static void DeleteGem()
         {
-            for (int i = 0; i < gems.Length; i++)
+            for (int i = 0; i < Gems.Length; i++)
             {
-                if (player.Pos.X == gems[i].PositionX && (gems[i].PositionY - player.Pos.Y) <= 30 && (gems[i].PositionY - player.Pos.Y) >= 20)
+                if (player.Pos.X == Gems[i].PositionX && (Gems[i].PositionY - player.Pos.Y) <= 30 && (Gems[i].PositionY - player.Pos.Y) >= 20)
                 {
-                    gems[i].Delete();
+                    Gems[i].Delete();
                     Score++;
                 }
             }
         }
         public static void Teleportation()
         {
-            for (int i = 0; i < portals.Length; i++)
+            for (int i = 0; i < Portals.Length; i++)
             {
-                if (player.Pos.X == portals[i].PositionX && (portals[i].PositionY - player.Pos.Y) <= 40 && (portals[i].PositionY - player.Pos.Y) >= 10)
+                if (player.Pos.X == Portals[i].PositionX && (Portals[i].PositionY - player.Pos.Y) <= 40 && (Portals[i].PositionY - player.Pos.Y) >= 10)
                 {
                     player.Pos.X = 720;
                     player.Pos.Y = 370;
-
                 }
             }
         }
 
-        static public void Init1(SpriteBatch SpriteBatch, int Width, int Height) //в этом методе должны создаваться тайлы
+        static public void Init1(SpriteBatch SpriteBatch, int Width, int Height)
         {
             Scene.Width = Width;
             Scene.Height = Height;
             Scene.SpriteBatch = SpriteBatch;
 
-            CreateTiles1();
+            CreateTiles();
             CreateGems();
             CreatePortals();
-            text = new Text();
+            Text = new Text();
             timer = new Text();
-
-
-            player = new Player(new Vector2(700, 370), 5); //начальная позиция и скорость           
-            //DrawYouWinner();
+            player = new Player(new Vector2(700, 370), 5);                  
         }
-        /*
-        public static void DrawYouWinner()
-        {
-            if(time == 500)
-            {
-                YouWinner = new Message(0, 0);
-            }
-        }
-        */
-        public static void CreateTiles1()
+        
+        public static void CreateTiles()
         {
             var boxs1 = new List<Tile>();
-            //var listPortals = new List<Portal>();
             var level1 = new int[,]
             {
                 {0,0,0,1,0,0,0,0,0,0,1},
@@ -298,66 +276,28 @@ namespace clone5
                 }
             }
 
-            tiles1 = boxs1.ToArray();
-            //portals = listPortals.ToArray();
-
+            Tiles = boxs1.ToArray();
         }
 
         public static void Draw()
         {
-            foreach (Tile tile in tiles1)
+            foreach (Tile tile in Tiles)
             {
                 tile.Draw();
             }
-            foreach (Gem gem in gems)
+            foreach (Gem gem in Gems)
             {
                 gem.Draw();
             }
-            foreach (Portal portal in portals)
+            foreach (Portal portal in Portals)
             {
                 portal.Draw();
             }
 
             player.Draw();
-            text.Draw(Score, gems.Length);
-            timer.DrawTime(time);
-            Scene.SpriteBatch.Draw(Finish, new Rectangle(280, 18, 90, 90), Color.White);
-            //DrawYouWinner();
-            //YouWinner.Draw();
-
+            Text.Draw(Score, Gems.Length);
+            timer.DrawTime(Seconds);
+            Scene.SpriteBatch.Draw(Finish, new Rectangle(280, 18, 90, 90), Color.White);           
         }
     }
 }
-/*
- * using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace clone5
-{
-    class Message
-    {
-        public static Texture2D YouWinner { get; set; }
-
-        public const int Width = 300;
-        public const int Height = 200;
-        public int PositionX;
-        public int PositionY;
-
-        public Message(int positionX, int positionY)
-        {
-            PositionX = positionX;
-            PositionY = positionY;
-        }
-        
-        public void Draw()
-        {
-            Scene.SpriteBatch.Draw(YouWinner, new Rectangle(PositionX, PositionY, Width, Height), Color.White);
-        }
-    }
-}
- */
