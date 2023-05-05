@@ -53,7 +53,7 @@ namespace clone5
             DeleteGem();
             WindowOut();
 
-            if (((Player.Pos.X > 150) && (Player.Pos.X < 200) && (Player.Pos.Y < 25) && Score == 15) || button.IsKeyDown(Keys.G)) 
+            if ((Player.Pos.X > 150) && (Player.Pos.X < 200) && (Player.Pos.Y < 25) && Score == 15) 
             {
                 Game1.Stat = Stat.Scene3;
             }

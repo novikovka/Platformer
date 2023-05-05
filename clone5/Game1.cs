@@ -6,6 +6,7 @@ namespace clone5
 {    
     public enum Stat //состояния игры
     {
+        SplashScreen,
         Scene1,
         Scene2,
         Scene3,
@@ -23,7 +24,7 @@ namespace clone5
         Texture2D YouWinner;
         Texture2D GameOver;
        
-        public static  Stat Stat = Stat.Scene1;
+        public static  Stat Stat = Stat.SplashScreen;
 
         public Game1()
         {
@@ -63,6 +64,10 @@ namespace clone5
             YouWinner = Content.Load<Texture2D>("вы выиграли");
             GameOver = Content.Load<Texture2D>("вы проиграли 3");
             Text.Font = Content.Load<SpriteFont>("Score");
+
+            SplashScreen.Texture2D = Content.Load<Texture2D>("заставка");
+            SplashScreen.GameName = Content.Load<SpriteFont>("GameName");
+            SplashScreen.Space = Content.Load<SpriteFont>("Score");
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,6 +77,9 @@ namespace clone5
             
             switch (Stat)
             {
+                case Stat.SplashScreen:
+                    SplashScreen.Update(gameTime);
+                    break;
                 case Stat.Scene1:
                     Scene.Update(gameTime);
                     break;
@@ -91,6 +99,12 @@ namespace clone5
 
             switch (Stat)
             {
+                case Stat.SplashScreen:
+                    _spriteBatch.Begin();
+                    //_spriteBatch.Draw(background1, new Rectangle(0, 0, 800, 500), Color.White);
+                    SplashScreen.Draw();
+                    _spriteBatch.End();
+                    break;
                 case Stat.Scene1:
                     _spriteBatch.Begin();
                     _spriteBatch.Draw(background1, new Rectangle(0, 0, 800, 500), Color.White);

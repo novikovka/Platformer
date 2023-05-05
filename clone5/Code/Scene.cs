@@ -90,7 +90,7 @@ namespace clone5
             }           
             DeleteGem();
             
-            if(((Player.Pos.X > 700) && (Player.Pos.Y < 70) && Score == 15) || button.IsKeyDown(Keys.F)) //вот тут надо будет убрать переход по клавише 
+            if((Player.Pos.X > 700) && (Player.Pos.Y < 70) && Score == 15) 
             {
                 Game1.Stat = Stat.Scene2;
             }
